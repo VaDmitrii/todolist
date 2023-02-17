@@ -2,13 +2,14 @@ version: "3.9"
 
 services:
   api:
-    image: dvasilevich/todolist:version-1
+    image: dvasilevich/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     environment:
       DB_USER: $DB_USER
       DB_PASSWORD: $DB_PASSWORD
       DB_NAME: $DB_NAME
+      DB_HOST: $DB_HOST
     ports:
-      - "8000:80"
+      - "8000:8000"
     volumes:
       - ./.docker_env:/api/.env
     depends_on:
@@ -17,7 +18,7 @@ services:
       migrations:
         condition: service_completed_successfully
   migrations:
-    image: dvasilevich/todolist:version-1
+    image: dvasilevich/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     depends_on:
       postgres:
         condition: service_healthy
@@ -32,6 +33,7 @@ services:
       POSTGRES_USER: $DB_USER
       POSTGRES_PASSWORD: $DB_PASSWORD
       POSTGRES_DB: $DB_NAME
+      POSTGRES_HOST: $DB_HOST
     volumes:
       - ./postgres_data:/var/lib/postgresql/data 700
     healthcheck:
