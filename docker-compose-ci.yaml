@@ -2,8 +2,6 @@ version: "3.9"
 
 services:
   api:
-    build:
-      context: .
     image: dvasilevich/todolist:version-1
     environment:
       DB_USER: $DB_USER
@@ -19,8 +17,7 @@ services:
       migrations:
         condition: service_completed_successfully
   migrations:
-    build:
-      context: .
+    image: dvasilevich/todolist:version-1
     depends_on:
       postgres:
         condition: service_healthy
