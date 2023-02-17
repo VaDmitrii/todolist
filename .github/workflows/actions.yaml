@@ -9,9 +9,9 @@ jobs:
       - name: build
         run: docker build -t dvasilevich/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID .
       - name: login
-        run: docker login -u ${{ secrets.DOCKER_LOGIN }} -p ${{ secrets.DOCKER_PASSWORD }}
+        run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_LOGIN }} --password-stdin
       - name: push
-        run: docker push ${{ secrets.IMAGE_TAG }}:$GITHUB_REF_NAME-$GITHUB_RUN_ID
+        run: docker push dvasilevich/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
   deploy:
     needs: build
     runs-on: ubuntu-latest
