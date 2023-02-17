@@ -43,4 +43,4 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
             cd deploy
-            echo ${{ secrets.SSH_PASSWORD }} | sudo -S docker-compose up -d
+            docker-compose up -d
