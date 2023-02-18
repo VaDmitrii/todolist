@@ -1,6 +1,12 @@
 version: "3.9"
 
 services:
+  front:
+    image: sermalenk/skypro-front:lesson-34
+    ports:
+      - "8000:80"
+    depends_on:
+      - api
   api:
     image: dvasilevich/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     environment:
@@ -9,7 +15,7 @@ services:
       DB_NAME: $DB_NAME
       DB_HOST: $DB_HOST
     ports:
-      - "8000:8000"
+      - "80:8000"
     volumes:
       - ./.docker_env:/api/.env
     depends_on:
