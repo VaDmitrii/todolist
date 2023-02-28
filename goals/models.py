@@ -1,6 +1,5 @@
 from django.db import models
 from django.db.models import CASCADE
-from django.utils import timezone
 
 from core.models import User
 
