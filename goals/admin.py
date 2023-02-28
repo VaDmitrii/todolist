@@ -6,7 +6,7 @@ from goals.models import Goal, GoalComment, GoalCategory
 @admin.register(GoalCategory)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ("title", "user", "created", "updated")
-    search_fields = ("title", "user")
+    search_fields = ("title",)
 
 
 @admin.register(Goal)

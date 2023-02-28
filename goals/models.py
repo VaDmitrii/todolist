@@ -25,28 +25,33 @@ class GoalCategory(DatesModelMixin):
 
     objects = models.Manager()
 
-
-class Status(models.IntegerChoices):
-    to_do = 1, "К выполнению"
-    in_progress = 2, "В процессе"
-    done = 3, "Выполнено"
-    archived = 4, "Архив"
-
-
-class Priority(models.IntegerChoices):
-    low = 1, "Низкий"
-    medium = 2, "Средний"
-    high = 3, "Высокий"
-    critical = 4, "Критический"
+    def __str__(self):
+        return f'{self.title} <{self.user.username}>'
 
 
 class Goal(DatesModelMixin):
+    class Status(models.IntegerChoices):
+        to_do = 1, "К выполнению"
+        in_progress = 2, "В процессе"
+        done = 3, "Выполнено"
+        archived = 4, "Архив"
+
+    class Priority(models.IntegerChoices):
+        low = 1, "Низкий"
+        medium = 2, "Средний"
+        high = 3, "Высокий"
+        critical = 4, "Критический"
+
     id = models.AutoField(primary_key=True)
     title = models.CharField(verbose_name="Название", max_length=255)
-    category = models.ForeignKey(GoalCategory, verbose_name="Категория", on_delete=models.CASCADE)
-    is_deleted = models.BooleanField(verbose_name="Удалена", default=False)
+    category = models.ForeignKey(
+        GoalCategory, verbose_name="Категория",
+        on_delete=models.CASCADE,
+        related_name="goals"
+    )
     description = models.CharField(verbose_name="Описание", max_length=300)
     user = models.ForeignKey(User, verbose_name="Автор", on_delete=models.PROTECT)
+    is_deleted = models.BooleanField(verbose_name="Удалена", default=False)
     due_date = models.DateTimeField(verbose_name="Дэдлайн")
     status = models.PositiveSmallIntegerField(
         verbose_name="Статус", choices=Status.choices, default=Status.to_do
