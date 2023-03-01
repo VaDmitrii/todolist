@@ -30,8 +30,6 @@ services:
         condition: service_healthy
     environment:
       DB_HOST: postgres
-      DB_PASSWORD: $DB_PASSWORD
-      DB_USER: $DB_USER
     volumes:
       - ./.docker_env:/api/.env
     command: python manage.py migrate
