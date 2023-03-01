@@ -15,8 +15,6 @@ services:
       DB_PASSWORD: $DB_PASSWORD
       DB_NAME: $DB_NAME
       DB_HOST: postgres
-    ports:
-      - "8000:8000"
     volumes:
       - ./.docker_env:/api/.env
     depends_on:
@@ -24,6 +22,7 @@ services:
         condition: service_healthy
       migrations:
         condition: service_completed_successfully
+
   migrations:
     image: dvasilevich/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     depends_on:
@@ -34,17 +33,20 @@ services:
     volumes:
       - ./.docker_env:/api/.env
     command: python manage.py migrate
+
   postgres:
     image: postgres:latest
     environment:
       POSTGRES_USER: $DB_USER
       POSTGRES_PASSWORD: $DB_PASSWORD
       POSTGRES_DB: $DB_NAME
-      POSTGRES_HOST: $DB_HOST
     volumes:
-      - ./postgres_data:/var/lib/postgresql/data 700
+      - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U todolist"]
+      test: ["CMD-SHELL", "pg_isready -U $DB_USER -d $DB_NAME"]
       interval: 5s
       timeout: 5s
-      retries: 5
+      retries: 10
+
+volumes:
+  postgres_data:
