@@ -10,7 +10,7 @@ services:
       - api
 
   api:
-    build: .
+    image: dvasilevich/todolist:version-1
     environment:
       DB_HOST: postgres
     restart: always
