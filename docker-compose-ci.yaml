@@ -30,6 +30,8 @@ services:
         condition: service_healthy
     environment:
       DB_HOST: postgres
+    env_file:
+      - .env
     volumes:
       - ./.docker_env:/api/.env
     command: python manage.py migrate
