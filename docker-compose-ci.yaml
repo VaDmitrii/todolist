@@ -35,8 +35,6 @@ services:
       DB_PASSWORD: $DB_PASSWORD
       DB_NAME: $DB_NAME
       DB_HOST: postgres
-    env_file:
-      - .env
     volumes:
       - ./.docker_env:/api/.env
     command: python manage.py migrate
