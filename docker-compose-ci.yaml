@@ -28,8 +28,8 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-    environment:
-      DB_HOST: postgres
+#    environment:
+#      DB_HOST: postgres
     env_file:
       - .env
     volumes:
