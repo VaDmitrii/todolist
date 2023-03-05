@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   front:
-    image: sermalenk/skypro-front:lesson-36
+    image: sermalenk/skypro-front:lesson-37
     restart: always
     ports:
       - "80:80"
@@ -10,7 +10,8 @@ services:
       - api
 
   api:
-    image: dvasilevich/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
+#    image: dvasilevich/todolist:version-1
+    build: .
     environment:
       DB_HOST: postgres
     restart: always
