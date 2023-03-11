@@ -106,7 +106,7 @@ class GoalCreateSerializer(serializers.ModelSerializer):
         if value.is_deleted:
             raise serializers.ValidationError("not allowed in deleted category")
 
-        if value.user_id != self.context["request"].user.id:
+        if value.user.id != self.context["request"].user.id:
             raise PermissionDenied
 
         return value
@@ -147,9 +147,9 @@ class GoalCommentCreateSerializer(serializers.ModelSerializer):
         if value.status == Goal.Status.archived:
             raise ValidationError('Goal not found')
         if not BoardParticipant.objects.filter(
-            board_id=value.category.board_id,
-            role__in=[BoardParticipant.Role.owner, BoardParticipant.Role.writer],
-            user_id=self.context['request'].user.id
+                board_id=value.category.board_id,
+                role__in=[BoardParticipant.Role.owner, BoardParticipant.Role.writer],
+                user_id=self.context['request'].user.id
         ).exists():
             raise PermissionDenied
         return value
