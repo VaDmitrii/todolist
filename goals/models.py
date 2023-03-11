@@ -92,10 +92,9 @@ class Goal(DatesModelMixin):
         on_delete=models.CASCADE,
         related_name="goals"
     )
-    description = models.CharField(verbose_name="Описание", max_length=300)
+    description = models.TextField(verbose_name="Описание", blank=True, max_length=300)
     user = models.ForeignKey(User, verbose_name="Автор", on_delete=models.PROTECT)
-    is_deleted = models.BooleanField(verbose_name="Удалена", default=False)
-    due_date = models.DateTimeField(verbose_name="Дэдлайн")
+    due_date = models.DateTimeField(verbose_name="Дэдлайн", null=True, blank=True, default=None)
     status = models.PositiveSmallIntegerField(
         verbose_name="Статус", choices=Status.choices, default=Status.to_do
     )

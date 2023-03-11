@@ -1,5 +1,9 @@
+from datetime import date
+
 from django.db import transaction
+from django.utils import timezone
 from rest_framework import serializers
+from rest_framework.exceptions import PermissionDenied, ValidationError
 
 from core.models import User
 from core.serializers import CoreSerializer
@@ -17,7 +21,6 @@ class BoardParticipantSerializer(serializers.ModelSerializer):
 
 
 class BoardCreateSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Board
         read_only_fields = ("id", "created", "updated", "is_deleted")
@@ -25,7 +28,7 @@ class BoardCreateSerializer(serializers.ModelSerializer):
 
 
 class BoardSerializer(serializers.ModelSerializer):
-    participants = BoardParticipantSerializer(many=True)
+    participants = BoardParticipantSerializer(many=True, required=False)
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     class Meta:
@@ -71,45 +74,46 @@ class BoardListSerializer(serializers.ModelSerializer):
 
 
 class GoalCategoryCreateSerializer(serializers.ModelSerializer):
-    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), default=serializers.CurrentUserDefault())
     board = serializers.PrimaryKeyRelatedField(
         queryset=Board.objects.all()
     )
 
     class Meta:
         model = GoalCategory
-        read_only_fields = ("id", "created", "updated", "user")
+        read_only_fields = ("id", "created", "updated", "user", "is_deleted",)
         fields = "__all__"
 
 
 class GoalCategorySerializer(serializers.ModelSerializer):
     user = CoreSerializer(read_only=True)
-    board = BoardSerializer(read_only=True)
 
     class Meta:
         model = GoalCategory
         fields = "__all__"
-        read_only_fields = ("id", "created", "updated", "user", "board")
+        read_only_fields = ("id", "created", "updated", "user", "is_deleted", "board")
 
 
 class GoalCreateSerializer(serializers.ModelSerializer):
-    category = serializers.PrimaryKeyRelatedField(
-        queryset=GoalCategory.objects.filter(is_deleted=False)
-    )
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     class Meta:
         model = Goal
         fields = "__all__"
-        read_only_fields = ("id", "created", "updated", "user", "category")
+        read_only_fields = ("id", "created", "updated", "user")
 
     def validate_category(self, value: GoalCategory) -> GoalCategory:
         if value.is_deleted:
             raise serializers.ValidationError("not allowed in deleted category")
 
-        if value.user != self.context["request"].user:
-            raise serializers.ValidationError("not owner of category")
+        if value.user_id != self.context["request"].user.id:
+            raise PermissionDenied
 
+        return value
+
+    def validate_due_date(self, value: date) -> date:
+        if value and value < timezone.now().date():
+            raise ValidationError("Failed to set due date in the past")
         return value
 
 
@@ -138,6 +142,17 @@ class GoalCommentCreateSerializer(serializers.ModelSerializer):
         model = GoalComment
         fields = "__all__"
         read_only_fields = ("id", "created", "updated", "user")
+
+    def validate_goal(self, value: Goal):
+        if value.status == Goal.Status.archived:
+            raise ValidationError('Goal not found')
+        if not BoardParticipant.objects.filter(
+            board_id=value.category.board_id,
+            role__in=[BoardParticipant.Role.owner, BoardParticipant.Role.writer],
+            user_id=self.context['request'].user.id
+        ).exists():
+            raise PermissionDenied
+        return value
 
 
 class GoalCommentSerializer(serializers.ModelSerializer):
