@@ -26,7 +26,7 @@ services:
         condition: service_completed_successfully
 
   bot:
-    build: .
+    image: dvasilevich/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     environment:
       DB_HOST: postgres
     ports:
@@ -41,7 +41,7 @@ services:
     command: python manage.py runbot
 
   migrations:
-    image: dvasilevich/todolist:version-1
+    image: dvasilevich/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     depends_on:
       postgres:
         condition: service_healthy
