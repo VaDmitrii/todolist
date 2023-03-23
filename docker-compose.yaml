@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   front:
-    image: sermalenk/skypro-front:lesson-37
+    image: sermalenk/skypro-front:lesson-38
     restart: always
     ports:
       - "80:80"
@@ -13,6 +13,7 @@ services:
     image: dvasilevich/todolist:version-1
     environment:
       DB_HOST: postgres
+      TOKEN: $BOT_TOKEN
     restart: always
     ports:
       - "8000:8000"
@@ -22,6 +23,20 @@ services:
       migrations:
         condition: service_completed_successfully
     env_file: .env
+
+  bot:
+    build: .
+    environment:
+      DB_HOST: postgres
+    ports:
+      - "443:443"
+    depends_on:
+      postgres:
+        condition: service_started
+      migrations:
+        condition: service_completed_successfully
+    env_file: .env
+    command: python manage.py runbot
 
   migrations:
     build: .
