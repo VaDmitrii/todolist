@@ -41,7 +41,7 @@ services:
     command: python manage.py runbot
 
   migrations:
-    image: dvasilevich/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
+    image: dvasilevich/todolist:version-1
     depends_on:
       postgres:
         condition: service_healthy

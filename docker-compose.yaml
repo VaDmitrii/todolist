@@ -10,7 +10,7 @@ services:
       - api
 
   api:
-    image: dvasilevich/todolist:latest
+    image: dvasilevich/todolist:version-1
     environment:
       DB_HOST: postgres
       TOKEN: $BOT_TOKEN
