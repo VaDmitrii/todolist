@@ -25,6 +25,20 @@ services:
       migrations:
         condition: service_completed_successfully
 
+  bot:
+    build: .
+    environment:
+      DB_HOST: postgres
+    ports:
+      - "443:443"
+    depends_on:
+      postgres:
+        condition: service_started
+      migrations:
+        condition: service_completed_successfully
+    env_file: .env
+    command: python manage.py runbot
+
   migrations:
     image: dvasilevich/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     depends_on:
