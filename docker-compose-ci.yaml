@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   front:
-    image: sermalenk/skypro-front:lesson-37
+    image: sermalenk/skypro-front:lesson-38
     ports:
       - "80:80"
     depends_on:
@@ -39,6 +39,7 @@ services:
     volumes:
       - ./.docker_env:/api/.env
     command: python manage.py runbot
+
 
   migrations:
     image: dvasilevich/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
