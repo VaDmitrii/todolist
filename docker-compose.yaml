@@ -13,7 +13,6 @@ services:
     image: dvasilevich/todolist:version-1
     environment:
       DB_HOST: postgres
-      BOT_TOKEN: $BOT_TOKEN
     restart: always
     ports:
       - "8000:8000"
