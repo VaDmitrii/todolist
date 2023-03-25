@@ -10,7 +10,7 @@ services:
       - api
 
   api:
-    image: dvasilevich/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
+    image: dvasilevich/todolist:version-1
     environment:
       DB_HOST: postgres
     restart: always
