@@ -24,7 +24,7 @@ services:
     env_file: .env
 
   bot:
-    build: .
+    image: dvasilevich/todolist:version-1
     environment:
       DB_HOST: postgres
       TOKEN: $BOT_TOKEN
