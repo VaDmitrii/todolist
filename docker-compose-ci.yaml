@@ -34,7 +34,7 @@ services:
       DB_NAME: $DB_NAME
       TOKEN: $BOT_TOKEN
     ports:
-      - "443:443"
+      - "8443:8443"
     depends_on:
       postgres:
         condition: service_started
