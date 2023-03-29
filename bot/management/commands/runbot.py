@@ -85,6 +85,7 @@ class Command(BaseCommand):
                     flag = False
                 elif item.message.text == '/cancel':
                     self.tg_client.send_message(tg_user.chat_id, 'Canceled goal creating')
+                    flag = False
 
     def create_goal(self, tg_user: TgUser, category: GoalCategory, offset: int = 0):
         self.tg_client.send_message(tg_user.chat_id, f'Type goal to add to category: {category.title}')
