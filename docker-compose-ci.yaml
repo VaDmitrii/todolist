@@ -9,7 +9,7 @@ services:
       api:
         condition: service_started
   api:
-    image: dvasilevich/todolist:version-1
+    image: dvasilevich/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     environment:
       DB_USER: $DB_USER
       DB_PASSWORD: $DB_PASSWORD
@@ -26,7 +26,7 @@ services:
         condition: service_completed_successfully
 
   bot:
-    image: dvasilevich/todolist:version-1
+    image: dvasilevich/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     environment:
       DB_HOST: postgres
       DB_USER: $DB_USER
@@ -46,7 +46,7 @@ services:
 
 
   migrations:
-    image: dvasilevich/todolist:version-1
+    image: dvasilevich/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     depends_on:
       postgres:
         condition: service_healthy
