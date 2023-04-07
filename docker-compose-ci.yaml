@@ -26,8 +26,8 @@ services:
         condition: service_completed_successfully
 
   bot:
-    image: dvasilevich/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
-#    build: .
+#    image: dvasilevich/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
+    build: .
     environment:
       DB_HOST: postgres
       DB_USER: $DB_USER
