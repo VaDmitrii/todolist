@@ -26,7 +26,8 @@ services:
         condition: service_completed_successfully
 
   bot:
-    image: dvasilevich/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
+#    image: dvasilevich/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
+    build: .
     environment:
       DB_HOST: postgres
       DB_USER: $DB_USER
@@ -46,7 +47,8 @@ services:
 
 
   migrations:
-    image: dvasilevich/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
+#    image: dvasilevich/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
+    build: .
     depends_on:
       postgres:
         condition: service_healthy
