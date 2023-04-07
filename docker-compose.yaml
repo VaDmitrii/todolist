@@ -24,8 +24,7 @@ services:
     env_file: .env
 
   bot:
-    build: .
-#    image: dvasilevich/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
+    image: dvasilevich/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     environment:
       DB_HOST: postgres
       TOKEN: $BOT_TOKEN
