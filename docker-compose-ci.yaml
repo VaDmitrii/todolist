@@ -67,8 +67,8 @@ services:
 
   postgres:
     image: postgres:14.6-alpine
-    ports:
-      - "$DB_PORT:5432"
+#    ports:
+#      - "$DB_PORT:5432"
     environment:
       POSTGRES_USER: $DB_USER
       POSTGRES_PASSWORD: $DB_PASSWORD
