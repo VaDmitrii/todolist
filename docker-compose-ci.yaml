@@ -32,6 +32,9 @@ services:
     image: dvasilevich/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     environment:
       DB_HOST: postgres
+      DB_USER: $DB_USER
+      DB_PASSWORD: $DB_PASSWORD
+      DB_NAME: $DB_NAME
       TOKEN: $BOT_TOKEN
     ports:
       - "443:443"
@@ -64,13 +67,12 @@ services:
 
   postgres:
     image: postgres:14.6-alpine
-#    ports:
-#      - "5432:5432"
+    ports:
+      - "5432:5432"
     environment:
       POSTGRES_USER: $DB_USER
       POSTGRES_PASSWORD: $DB_PASSWORD
       POSTGRES_DB: $DB_NAME
-      POSTGRES_PORT: $DB_PORT
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
