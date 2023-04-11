@@ -47,6 +47,7 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
             cd deploy
+            docker-compose down
             docker-compose up -d
       - name: clean up
         if: always()
