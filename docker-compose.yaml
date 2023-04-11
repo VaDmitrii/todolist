@@ -62,12 +62,13 @@ services:
 
   postgres:
     image: postgres:14.6-alpine
-    ports:
-      - "5432:5432"
+#    ports:
+#      - "5432:5432"
     environment:
       POSTGRES_USER: $DB_USER
       POSTGRES_PASSWORD: $DB_PASSWORD
       POSTGRES_DB: $DB_NAME
+      POSTGRES_PORT: $DB_PORT
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U $DB_USER -d $DB_NAME"]
       interval: 5s
