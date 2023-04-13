@@ -30,9 +30,9 @@ services:
     image: dvasilevich/todolist:version-1
     environment:
       DB_HOST: postgres
-      DB_USER: $DB_USER
-      DB_PASSWORD: $DB_PASSWORD
-      DB_NAME: $DB_NAME
+#      DB_USER: $DB_USER
+#      DB_PASSWORD: $DB_PASSWORD
+#      DB_NAME: $DB_NAME
       TOKEN: $BOT_TOKEN
     ports:
       - "443:443"
