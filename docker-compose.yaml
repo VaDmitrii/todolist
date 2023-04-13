@@ -10,12 +10,12 @@ services:
       - api
 
   api:
-    image: dvasilevich/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
+    image: dvasilevich/todolist:version-1
     environment:
       DB_HOST: postgres
-      DB_USER: $DB_USER
-      DB_PASSWORD: $DB_PASSWORD
-      DB_NAME: $DB_NAME
+#      DB_USER: $DB_USER
+#      DB_PASSWORD: $DB_PASSWORD
+#      DB_NAME: $DB_NAME
     restart: always
     ports:
       - "8000:8000"
@@ -27,7 +27,7 @@ services:
     env_file: .env
 
   bot:
-    image: dvasilevich/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
+    image: dvasilevich/todolist:version-1
     environment:
       DB_HOST: postgres
       DB_USER: $DB_USER
@@ -48,7 +48,7 @@ services:
 
   migrations:
 #    build: .
-    image: dvasilevich/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
+    image: dvasilevich/todolist:version-1
     environment:
       DB_HOST: postgres
       DB_USER: $DB_USER
