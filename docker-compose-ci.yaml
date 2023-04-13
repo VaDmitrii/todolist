@@ -11,11 +11,11 @@ services:
   api:
     image: dvasilevich/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     environment:
+      DB_HOST: postgres
       DB_USER: $DB_USER
       DB_PASSWORD: $DB_PASSWORD
       DB_NAME: $DB_NAME
-      DB_HOST: postgres
-#      TOKEN: $BOT_TOKEN
+      TOKEN: $BOT_TOKEN
       SOCIAL_AUTH_VK_OAUTH2_KEY: $SOCIAL_AUTH_VK_OAUTH2_KEY
       SOCIAL_AUTH_VK_OAUTH2_SECRET: $SOCIAL_AUTH_VK_OAUTH2_SECRET
     volumes:
@@ -30,9 +30,9 @@ services:
     image: dvasilevich/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     environment:
       DB_HOST: postgres
-#      DB_USER: $DB_USER
-#      DB_PASSWORD: $DB_PASSWORD
-#      DB_NAME: $DB_NAME
+      DB_USER: $DB_USER
+      DB_PASSWORD: $DB_PASSWORD
+      DB_NAME: $DB_NAME
       TOKEN: $BOT_TOKEN
     ports:
       - "443:443"
@@ -50,7 +50,6 @@ services:
 
   migrations:
     image: dvasilevich/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
-#    build: .
     depends_on:
       postgres:
         condition: service_healthy
