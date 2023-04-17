@@ -16,7 +16,7 @@ services:
       DB_USER: $DB_USER
       DB_PASSWORD: $DB_PASSWORD
       DB_NAME: $DB_NAME
-      TOKEN: $BOT_TOKEN
+      BOT_TOKEN: $BOT_TOKEN
     restart: always
     ports:
       - "8000:8000"
@@ -28,14 +28,13 @@ services:
     env_file: .env
 
   bot:
-#    image: dvasilevich/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
-    build: .
+    image: dvasilevich/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     environment:
       DB_HOST: postgres
       DB_USER: $DB_USER
       DB_PASSWORD: $DB_PASSWORD
       DB_NAME: $DB_NAME
-      TOKEN: $BOT_TOKEN
+      BOT_TOKEN: $BOT_TOKEN
     ports:
       - "443:443"
     depends_on:
@@ -49,8 +48,7 @@ services:
     command: python manage.py runbot
 
   migrations:
-#    image: dvasilevich/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
-    build: .
+    image: dvasilevich/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     environment:
       DB_HOST: postgres
       DB_USER: $DB_USER

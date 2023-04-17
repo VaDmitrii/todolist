@@ -152,9 +152,9 @@ LOGGING = {
             'handlers': ['console'],
         },
         'django.server': {'handlers': ['null']},
-        'urllib3.connectionpool': {
-            'handlers': ['console'],
-            'level': 'WARNING',
+        # 'urllib3.connectionpool': {
+        #     'handlers': ['console'],
+        #     'level': 'WARNING',
             # 'propagate': False
         },
     },
