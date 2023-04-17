@@ -48,8 +48,8 @@ services:
     command: python manage.py runbot
 
   migrations:
-#    image: dvasilevich/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
-    build: .
+    image: dvasilevich/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
+#    build: .
     environment:
       DB_HOST: postgres
       DB_USER: $DB_USER

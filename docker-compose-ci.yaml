@@ -49,8 +49,8 @@ services:
 
 
   migrations:
-#    image: dvasilevich/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
-    build: .
+    image: dvasilevich/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
+#    build: .
     depends_on:
       postgres:
         condition: service_healthy
