@@ -49,15 +49,16 @@ services:
 
 
   migrations:
-    image: dvasilevich/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
+#    image: dvasilevich/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
+    build: .
     depends_on:
       postgres:
         condition: service_healthy
     environment:
       DB_HOST: postgres
-#      DB_USER: $DB_USER
-#      DB_PASSWORD: $DB_PASSWORD
-#      DB_NAME: $DB_NAME
+      DB_USER: $DB_USER
+      DB_PASSWORD: $DB_PASSWORD
+      DB_NAME: $DB_NAME
     volumes:
       - ./.docker_env:/api/.env
     command: python manage.py migrate
