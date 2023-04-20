@@ -1,4 +1,5 @@
 import os
+from datetime import timedelta
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -21,11 +22,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework_simplejwt',
     'social_django',
     'django_filters',
     'core',
     'goals',
     'bot',
+    'drf_spectacular',
 ]
 
 MIDDLEWARE = [
@@ -127,6 +130,22 @@ SOCIAL_AUTH_USER_MODEL = 'core.User'
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ],
+    "TEST_REQUEST_DEFAULT_FORMAT": "json",
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=2),
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Web market API",
+    "DESCRIPTION": "Web market to post ads and sell products and services",
+    "VERSION": "1.0.0",
 }
 
 BOT_TOKEN = os.getenv('BOT_TOKEN')
@@ -155,7 +174,6 @@ LOGGING = {
         'urllib3.connectionpool': {
             'handlers': ['console'],
             'level': 'WARNING',
-            # 'propagate': False
         },
     },
 }
