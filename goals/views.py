@@ -32,7 +32,7 @@ class GoalCategoryListView(ListAPIView):
     ordering = ["title"]
     search_fields = ["title"]
 
-    def get_queryset(self):
+    def get_queryset(self) -> QuerySet[GoalCategory]:
         query = GoalCategory.objects.filter(
             board__participants__user_id=self.request.user.id,
             is_deleted=False
@@ -44,7 +44,7 @@ class GoalCategoryView(RetrieveUpdateDestroyAPIView):
     serializer_class = GoalCategorySerializer
     permission_classes = [GoalCategoryPermissions]
 
-    def get_queryset(self):
+    def get_queryset(self) -> QuerySet[GoalCategory]:
         return GoalCategory.objects.filter(
             board__participants__user_id=self.request.user.id,
             is_deleted=False
@@ -109,7 +109,7 @@ class GoalCommentListView(ListAPIView):
         DjangoFilterBackend,
     ]
 
-    def get_queryset(self):
+    def get_queryset(self) -> QuerySet[GoalComment]:
         return GoalComment.objects.filter(
             goal__category__board__participants__user_id=self.request.user.id
         ).exclude(
@@ -127,7 +127,7 @@ class GoalCommentView(RetrieveUpdateDestroyAPIView):
     serializer_class = GoalCommentSerializer
     permission_classes = [GoalCommentPermissions]
 
-    def get_queryset(self):
+    def get_queryset(self) -> QuerySet[GoalComment]:
         return GoalComment.objects.filter(
             user=self.request.user
         ).exclude(
@@ -149,7 +149,7 @@ class BoardView(RetrieveUpdateDestroyAPIView):
     permission_classes = [BoardPermissions]
     serializer_class = BoardSerializer
 
-    def get_queryset(self):
+    def get_queryset(self) -> QuerySet[Board]:
         return Board.objects.filter(is_deleted=False)
 
     def perform_destroy(self, instance: Board):
@@ -167,7 +167,7 @@ class BoardListView(ListAPIView):
     pagination_class = LimitOffsetPagination
     ordering = ["title"]
 
-    def get_queryset(self):
+    def get_queryset(self) -> QuerySet[Board]:
         return Board.objects.filter(
             participants__user_id=self.request.user.id,
             is_deleted=False

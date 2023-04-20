@@ -15,7 +15,7 @@ class CoreSerializer(serializers.ModelSerializer):
         model = User
         fields = ['id', 'username', 'email', 'first_name', 'last_name', 'password', 'password_repeat']
 
-    def validate(self, attrs: dict):
+    def validate(self, attrs: dict) -> dict:
         if attrs['password'] != attrs['password_repeat']:
             raise ValidationError('passwords must match')
         return attrs

@@ -131,4 +131,3 @@ dmypy.json
 
 static
 .env
-bot_tests.py
