@@ -1,14 +1,5 @@
-import datetime
-from typing import OrderedDict, Dict, List
-
 import pytest
 from django.urls import reverse
-from rest_framework import status
-
-from core.models import User
-from goals.models import Board, BoardParticipant, GoalCategory, Goal, GoalComment
-from goals.serializers import BoardSerializer
-from tests.factories import GoalCategoryFactory, GoalFactory, GoalCommentFactory
 
 
 @pytest.mark.django_db
