@@ -131,11 +131,6 @@ REST_FRAMEWORK = {
     "TEST_REQUEST_DEFAULT_FORMAT": "json",
 }
 
-SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=2),
-}
-
 SPECTACULAR_SETTINGS = {
     "TITLE": "Web market API",
     "DESCRIPTION": "Web market to post ads and sell products and services",
